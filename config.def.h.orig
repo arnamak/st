@@ -95,62 +95,53 @@ unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
-
-	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
-
+/*----------8 normal colors----------*/
+  [0] = "#000000",   /*    black     */
+  [1] = "#ff5c57",   /*    red       */
+  [2] = "#5af78e",   /*    green     */
+  [3] = "#f3f99d",   /*    yellow    */
+  [4] = "#57c7ff",   /*    blue      */
+  [5] = "#ff6ac1",   /*    magenta   */
+  [6] = "#9aedfe",   /*    cyan      */
+  [7] = "#f1f1f0",   /*    white     */
+/*----------8 bright colors----------*/
+  [8]  = "#686868",  /*    black     */
+  [9]  = "#ff5c57",  /*    red       */
+  [10] = "#5af78e",  /*    green     */
+  [11] = "#f3f99d",  /*    yellow    */
+  [12] = "#57c7ff",  /*    blue      */
+  [13] = "#ff6ac1",  /*    magenta   */
+  [14] = "#9aedfe",  /*    cyan      */
+  [15] = "#eff0eb",  /*    white     */
+/*-----------Special color-----------*/
 	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
+  [256] = "#282a36", /*  background  */
+  [257] = "#eff0eb", /*  foreground  */
+  [258] = "#97979b", /*    cursor    */
+  [259] = "#525252", /* selection Fg */
+  [260] = "#2e3440",
+  [261] = "#2f3b5c",
 };
 
-
-/*
- * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
- */
-unsigned int defaultfg = 7;
+/*---------Default assignments-------*/
+/* background, foreground, underline */
+/*   italic,     cursor,    select   */
+/*-----------------------------------*/
 unsigned int defaultbg = 0;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 257;
+unsigned int defaultunderline = 7;
+unsigned int defaultitalic = 7;
+static unsigned int defaultcs = 258;
+static unsigned int defaultrcs = 9;
 
-/*
- * Default shape of cursor
- * 2: Block ("█")
- * 4: Underline ("_")
- * 6: Bar ("|")
- * 7: Snowman ("☃")
- */
+/* 2: block */
 static unsigned int cursorshape = 2;
 
-/*
- * Default columns and rows numbers
- */
-
+/* Default columns and rows numbers */
 static unsigned int cols = 80;
 static unsigned int rows = 24;
 
-/*
- * Default colour and shape of the mouse cursor
- */
+/* Default colour and shape of the mouse cursor */
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
@@ -201,28 +192,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ TERMMOD,              XK_Return,      newterm,        {.i =  0} },
 };
-
-/*
- * Special keys (change & recompile st.info accordingly)
- *
- * Mask value:
- * * Use XK_ANY_MOD to match the key no matter modifiers state
- * * Use XK_NO_MOD to match the key alone (no modifiers)
- * appkey value:
- * * 0: no value
- * * > 0: keypad application mode enabled
- * *   = 2: term.numlock = 1
- * * < 0: keypad application mode disabled
- * appcursor value:
- * * 0: no value
- * * > 0: cursor application mode enabled
- * * < 0: cursor application mode disabled
- *
- * Be careful with the order of the definitions because st searches in
- * this table sequentially, so any XK_ANY_MOD must be in the last
- * position for a key.
- */
 
 /*
  * If you want keys other than the X11 function keys (0xFD00 - 0xFFFF)
@@ -472,3 +443,18 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
+
+/* unsigned int selectionbg = 259; */
+/* unsigned int selectionfg = 7; */
+/* static int ignoreselfg = 1; */
+/* unsigned int bg = 0, bgUnfocused = 0; */
+/* unsigned int const currentBg = 261, buffSize = 2048; */
+/// [Vim Browse] Colors for search results currently on screen.
+/* unsigned int const highlightBg = 0, highlightFg = 7; */
+/* char const wDelS[] = "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~", wDelL[] = " \t"; */
+/* char *nmKeys [] = {}; ///< Shortcuts executed in normal mode */
+/* unsigned int const amountNmKeys = sizeof(nmKeys) / sizeof(*nmKeys); */
+/// Style of the {command, search} string shown in the right corner (y,v,V,/)
+/* Glyph styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0}; */
+/* Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,0,257}, {' ',ATTR_ITALIC,257,0}, */
+/*                  {' ', ATTR_ITALIC, 0, 13}, {' ', ATTR_ITALIC, 0, 7}}; */

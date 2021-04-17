@@ -94,7 +94,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.99;
+float alpha = 0.99, alphaUnfocused = 0.98;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -136,6 +136,7 @@ unsigned int defaultunderline = 7;
 unsigned int defaultitalic = 7;
 static unsigned int defaultcs = 258;
 static unsigned int defaultrcs = 9;
+unsigned int bg = 0, bgUnfocused = 0;
 
 /* 2: block */
 static unsigned int cursorshape = 2;
@@ -450,7 +451,6 @@ static char ascii_printable[] =
 /* unsigned int selectionbg = 259; */
 /* unsigned int selectionfg = 7; */
 /* static int ignoreselfg = 1; */
-/* unsigned int bg = 0, bgUnfocused = 0; */
 /* unsigned int const currentBg = 261, buffSize = 2048; */
 /// [Vim Browse] Colors for search results currently on screen.
 /* unsigned int const highlightBg = 0, highlightFg = 7; */

@@ -130,12 +130,15 @@ static const char *colorname[] = {
 /* background, foreground, underline */
 /*   italic,     cursor,    select   */
 /*-----------------------------------*/
+static int ignoreselfg = 1;
 unsigned int defaultbg = 0;
 unsigned int defaultfg = 257;
-unsigned int defaultunderline = 7;
+unsigned int selectionfg = 7;
+unsigned int selectionbg = 259;
 unsigned int defaultitalic = 7;
-static unsigned int defaultcs = 258;
+unsigned int defaultunderline = 7;
 static unsigned int defaultrcs = 9;
+static unsigned int defaultcs = 258;
 unsigned int bg = 0, bgUnfocused = 0;
 
 /* 2: block */
@@ -448,9 +451,6 @@ static char ascii_printable[] =
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
 
-/* unsigned int selectionbg = 259; */
-/* unsigned int selectionfg = 7; */
-/* static int ignoreselfg = 1; */
 /* unsigned int const currentBg = 261, buffSize = 2048; */
 /// [Vim Browse] Colors for search results currently on screen.
 /* unsigned int const highlightBg = 0, highlightFg = 7; */

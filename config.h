@@ -124,6 +124,7 @@ static const char *colorname[] = {
   [259] = "#525252", /* selection Fg */
   [260] = "#2e3440",
   [261] = "#2f3b5c",
+  [262] = "#FFFF00",
 };
 
 /*---------Default assignments-------*/
@@ -137,6 +138,7 @@ unsigned int selectionfg = 7;
 unsigned int selectionbg = 259;
 unsigned int defaultitalic = 7;
 unsigned int defaultunderline = 7;
+unsigned int linkselectionbg = 262;
 static unsigned int defaultrcs = 9;
 static unsigned int defaultcs = 258;
 unsigned int bg = 0, bgUnfocused = 0;

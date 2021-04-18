@@ -2805,7 +2805,7 @@ copyurl(const Arg *arg) {
 			}
 
 		/* highlight selection by inverting terminal colors */
-		tsetcolor(row, sel.ob.x, sel.ob.x + strlen( match ), defaultbg, defaultfg);
+		tsetcolor(row, sel.ob.x, sel.ob.x + strlen( match ), defaultbg, linkselectionbg);
 
 		/* select and copy */
 		sel.mode = 1;

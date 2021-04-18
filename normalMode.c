@@ -24,13 +24,10 @@
 
 //
 // Interface to the terminal
-extern Glyph const styleCommand, styleSearch;
-extern NormalModeShortcuts normalModeShortcuts[];
-extern size_t const amountNormalModeShortcuts;
+extern Glyph const styleSearch;
 extern char wordDelimSmall[];
 extern char wordDelimLarge[];
-extern unsigned int fgCommandYank, fgCommandVisual, fgCommandVisualLine,
-       bgCommandYank, bgCommandVisual, bgCommandVisualLine, bgPos, fgPos;
+extern unsigned int vimSearchBg, vimSearchFg, vimCursor, bgPos, fgPos;
 
 extern void selclear(void);
 extern void tsetdirt(int, int);
@@ -78,7 +75,7 @@ DynamicArray commandHist1 =  UTF8_ARRAY;
 DynamicArray highlights   = DWORD_ARRAY;
 
 /// History command toggle
-static bool toggle = false;
+static bool toggle = true;
 
 //
 // Utility functions
@@ -174,8 +171,8 @@ displayString(DynamicArray const *str, Glyph const *g, int yPos, bool prePos) {
 		}
 		for (uint32_t chr = 0; chr < botSz; ++chr) {
 			line[chr + overrideSize - botSz] =*g;
-			line[chr + overrideSize - botSz].fg = fgPos;
-			line[chr + overrideSize - botSz].bg = bgPos;
+			line[chr + overrideSize - botSz].fg = vimCursor;
+			line[chr + overrideSize - botSz].bg = vimCursor;
 			utf8decode(&prc[chr],&line[chr+overrideSize-botSz].u,1);
 		}
 		line[overrideSize - botSz] =*g;
@@ -187,20 +184,8 @@ displayString(DynamicArray const *str, Glyph const *g, int yPos, bool prePos) {
 	free(line);
 }
 
-static inline void printCommandString(void) {
-	Glyph g = styleCommand;
-	switch(stateVB.command.op) {
-		case yank: g.fg = fgCommandYank; g.bg = bgCommandYank; break;
-		case visual: g.fg=fgCommandVisual; g.bg=bgCommandVisual; break;
-		case visualLine: g.fg=fgCommandVisualLine;
-				 g.bg=bgCommandVisualLine;
-	}
-	displayString(isEmpty(currentCommand) ? lastCommand : currentCommand,
-			&g, term.row - 1, true);
-}
-
 static inline void printSearchString(void) {
-	displayString(&searchString, &styleSearch, term.row - 2, false);
+	displayString(&searchString, &styleSearch, term.row - 1, false);
 }
 
 // NormalMode Operation / Motion utilies.
@@ -251,7 +236,6 @@ static bool terminateCommand(bool abort) {
 		exitNormalMode = isOperationFinished();
 		finishOperation();
 	}
-	printCommandString();
 	printSearchString();
 	return exitNormalMode;
 }
@@ -687,7 +671,7 @@ ExitState kpressNormalMode(char const * cs, int len, bool ctrl, void const *v) {
 		case '/': sign = 1; FALLTHROUGH
 		case '?':
 			  empty(&searchString);
-			  stateVB.motion.search = sign == 1 ? forward : backward;
+			  stateVB.motion.search = sign == 1 ? backward : forward;
 			  stateVB.motion.searchPosition.x = term.c.x;
 			  stateVB.motion.searchPosition.y = term.c.y;
 			  stateVB.motion.searchPosition.yScr = term.scr;
@@ -711,14 +695,6 @@ ExitState kpressNormalMode(char const * cs, int len, bool ctrl, void const *v) {
 				  ? SEL_RECTANGULAR : SEL_REGULAR;
 			  //tsetdirt(sel.nb.y, sel.ne.y);
 			  goto motionFinish;
-	}
-	// Custom commands
-	for (size_t i = 0; i < amountNormalModeShortcuts; ++i) {
-		if (cs[0] == normalModeShortcuts[i].key) {
-			return pressKeys(normalModeShortcuts[i].value,
-					strlen(normalModeShortcuts[i].value))
-					? success : failed;
-		}
 	}
 	return failed;
 motionFinish:
@@ -746,7 +722,6 @@ finishNoAppend:
 		highlightStringOnScreen();
 	}
 	tsetdirt(0, term.row-3); //< Required because of the cursor cross.
-	printCommandString();
 	printSearchString();
 	return success;
 }

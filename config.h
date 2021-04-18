@@ -54,7 +54,7 @@ int allowwindowops = 0;
  * low minlatency will tear/flicker more, as it can "detect" idle too early.
  */
 static double minlatency = 0;
-static double maxlatency = 3;
+static double maxlatency = 30;
 
 /*
  * Synchronized-Update timeout in ms
@@ -152,6 +152,20 @@ unsigned int linkselectionbg = 262;
 static unsigned int defaultrcs = 9;
 static unsigned int defaultcs = 258;
 unsigned int bg = 0, bgUnfocused = 0;
+/* unsigned int const currentBg = 261, buffSize = 2048; */
+/* unsigned int const highlightBg = 0, highlightFg = 7; */
+/// [Vim Browse].
+char wordDelimSmall[] = " \t!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+char wordDelimLarge[] = " \t"; /// <Word sepearors normal mode (capital W)
+/// Style of the search string visualized in normal mode in the right corner.
+Glyph const styleSearch = {' ', ATTR_ITALIC, 262, 0};
+/// Colors used in normal mode in order to highlight different operations and
+/// empathise the current position on screen  in  the status area [Vim Browse].
+unsigned int vimSearchResultBg = 262;
+unsigned int vimSearchResultFg = 0;
+unsigned int vimCursor = 261;
+unsigned int fgPos = 262;
+unsigned int bgPos = 262;
 
 /* 2: block */
 static unsigned int cursorshape = 2;
@@ -467,54 +481,3 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
-
-/* unsigned int const currentBg = 261, buffSize = 2048; */
-/// [Vim Browse] Colors for search results currently on screen.
-/* unsigned int const highlightBg = 0, highlightFg = 7; */
-/* char const wDelS[] = "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~", wDelL[] = " \t"; */
-/* char *nmKeys [] = {}; ///< Shortcuts executed in normal mode */
-/* unsigned int const amountNmKeys = sizeof(nmKeys) / sizeof(*nmKeys); */
-/// Style of the {command, search} string shown in the right corner (y,v,V,/)
-/* Glyph styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0}; */
-/* Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,0,257}, {' ',ATTR_ITALIC,257,0}, */
-/*                  {' ', ATTR_ITALIC, 0, 13}, {' ', ATTR_ITALIC, 0, 7}}; */
-/// word sepearors normal mode
-/// [Vim Browse].
-char wordDelimSmall[] = " \t!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-char wordDelimLarge[] = " \t"; /// <Word sepearors normal mode (capital W)
-
-/// Shortcusts executed in normal mode (which should not already be in use)
-/// [Vim Browse].
-struct NormalModeShortcuts normalModeShortcuts [] = {
-	{ 'R', "?Building\n" },
-	{ 'r', "/Building\n" },
-	{ 'F', "?: error:\n" },
-	{ 'f', "/: error:\n" },
-	{ 'Q', "?[Leaving vim, starting execution]\n" },
-	{ 'S', "Qf" },
-	{ 'X', "?juli@machine\n" },
-	{ 'x', "/juli@machine\n" },
-};
-
-size_t const amountNormalModeShortcuts = sizeof(normalModeShortcuts) / sizeof(*normalModeShortcuts);
-
-/// Style of the command string visualized in normal mode in the right corner
-/// [Vim Browse].
-Glyph const styleCommand = {' ', ATTR_ITALIC | ATTR_FAINT, 7, 0};
-/// Style of the search string visualized in normal mode in the right corner.
-/// [Vim Browse].
-Glyph const styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0};
-
-/// Colors used in normal mode in order to highlight different operations and
-/// empathise the current position on screen  in  the status area [Vim Browse].
-unsigned int bgCommandYank = 0;
-unsigned int bgCommandVisual = 0;
-unsigned int bgCommandVisualLine = 0;
-
-unsigned int fgCommandYank = 262;
-unsigned int fgCommandVisual = 262;
-unsigned int fgCommandVisualLine = 262;
-
-unsigned int bgPos = 15;
-unsigned int fgPos = 16;
-

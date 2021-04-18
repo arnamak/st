@@ -6,12 +6,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/// Used in the configuration file to define custom shortcuts.
-typedef struct NormalModeShortcuts {
-	char key;
-	char *value;
-} NormalModeShortcuts;
-
 /// Holds the exit status of the #kpressNormalMode function, which informs the
 /// caller when to exit normal mode.
 typedef enum ExitState {

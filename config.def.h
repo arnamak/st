@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrains Mono:weight=75:size=13:antialias=true:autohint=true";
+static char *font = "JetBrains Mono:size=13:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /*
@@ -170,18 +170,20 @@ static uint forcemousemod = ShiftMask;
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
  */
-const unsigned int mousescrollincrement = 5;
-static MouseShortcut mshortcuts[] = {
-	/* mask                 button   function        argument       release */
-	{ XK_ANY_MOD,           Button4, kscrollup,      {.i =  mousescrollincrement}, 0, /* !alt */ -1 },
-	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i =  mousescrollincrement}, 0, /* !alt */ -1 },
-	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
-	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
-};
-
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
+
+const unsigned int mousescrollincrement = 5;
+static MouseShortcut mshortcuts[] = {
+	/* mask                 button  function        argument       release */
+	{ XK_NO_MOD,           Button4, kscrollup,      {.i =  mousescrollincrement}, 0, /* !alt */ -1 },
+	{ XK_NO_MOD,           Button5, kscrolldown,    {.i =  mousescrollincrement}, 0, /* !alt */ -1 },
+	{ XK_NO_MOD,           Button4, ttysend,        {.s = "\031"} },
+	{ XK_NO_MOD,           Button5, ttysend,        {.s = "\005"} },
+	{ MODKEY,              Button4, zoom,           {.f = +2} },
+	{ MODKEY,              Button5, zoom,           {.f = -2} },
+};
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */

@@ -62,6 +62,10 @@ static double maxlatency = 3;
  */
 static uint su_timeout = 200;
 
+/* frames per second st should at maximum draw to the screen */
+static unsigned int xfps = 120;
+static unsigned int actionfps = 30;
+
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
@@ -166,6 +170,14 @@ static unsigned int mousebg = 0;
  * doesn't match the ones requested.
  */
 static unsigned int defaultattr = 11;
+/// Colors for the entities that are 'highlighted' in normal mode (search
+/// results currently on screen) [Vim Browse].
+static unsigned int highlightBg = 160;
+static unsigned int highlightFg = 15;
+/// Colors for highlighting the current cursor position (row + col) in normal
+/// mode [Vim Browse].
+static unsigned int currentBg = 8;
+static unsigned int currentFg = 15;
 
 /*
  * Force mouse select/shortcuts while mask is active (when MODE_MOUSE is set).
@@ -180,6 +192,7 @@ static uint forcemousemod = ShiftMask;
  */
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
+#define AltMask Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 const unsigned int mousescrollincrement = 5;
 static MouseShortcut mshortcuts[] = {
@@ -202,6 +215,7 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 	{ TERMMOD,              XK_Return,      newterm,        {.i =  0} },
 	{ MODKEY,               XK_l,           copyurl,        {.i =  0} },
+	{ MODKEY,               XK_c,           normalMode,     {.i =  0} },
 	{ MODKEY,               XK_o,           opencopied,     {.v = "xdg-open"} },
 };
 
@@ -464,3 +478,43 @@ static char ascii_printable[] =
 /* Glyph styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0}; */
 /* Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,0,257}, {' ',ATTR_ITALIC,257,0}, */
 /*                  {' ', ATTR_ITALIC, 0, 13}, {' ', ATTR_ITALIC, 0, 7}}; */
+/// word sepearors normal mode
+/// [Vim Browse].
+char wordDelimSmall[] = " \t!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+char wordDelimLarge[] = " \t"; /// <Word sepearors normal mode (capital W)
+
+/// Shortcusts executed in normal mode (which should not already be in use)
+/// [Vim Browse].
+struct NormalModeShortcuts normalModeShortcuts [] = {
+	{ 'R', "?Building\n" },
+	{ 'r', "/Building\n" },
+	{ 'F', "?: error:\n" },
+	{ 'f', "/: error:\n" },
+	{ 'Q', "?[Leaving vim, starting execution]\n" },
+	{ 'S', "Qf" },
+	{ 'X', "?juli@machine\n" },
+	{ 'x', "/juli@machine\n" },
+};
+
+size_t const amountNormalModeShortcuts = sizeof(normalModeShortcuts) / sizeof(*normalModeShortcuts);
+
+/// Style of the command string visualized in normal mode in the right corner
+/// [Vim Browse].
+Glyph const styleCommand = {' ', ATTR_ITALIC | ATTR_FAINT, 7, 0};
+/// Style of the search string visualized in normal mode in the right corner.
+/// [Vim Browse].
+Glyph const styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0};
+
+/// Colors used in normal mode in order to highlight different operations and
+/// empathise the current position on screen  in  the status area [Vim Browse].
+unsigned int bgCommandYank = 0;
+unsigned int bgCommandVisual = 0;
+unsigned int bgCommandVisualLine = 0;
+
+unsigned int fgCommandYank = 262;
+unsigned int fgCommandVisual = 262;
+unsigned int fgCommandVisualLine = 262;
+
+unsigned int bgPos = 15;
+unsigned int fgPos = 16;
+

@@ -149,6 +149,17 @@ static unsigned int defaultrcs = 9;
 static unsigned int defaultcs = 258;
 unsigned int bg = 0, bgUnfocused = 0;
 
+unsigned int const currentBg = 261, buffSize = 2048;
+/// [Vim Browse] Colors for search results currently on screen.
+unsigned int const highlightBg = 0, highlightFg = 7;
+char const wDelS[] = "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~", wDelL[] = " \t";
+char *nmKeys [] = {}; ///< Shortcuts executed in normal mode
+unsigned int const amountNmKeys = sizeof(nmKeys) / sizeof(*nmKeys);
+/// Style of the {command, search} string shown in the right corner (y,v,V,/)
+unsigned int const vimSearchBg = 0;
+unsigned int const vimSearchFg = 262;
+Glyph styleSearch = {' ', ATTR_ITALIC, vimSearchFg, vimSearchBg};
+
 /* 2: block */
 static unsigned int cursorshape = 2;
 
@@ -203,6 +214,7 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Return,      newterm,        {.i =  0} },
 	{ MODKEY,               XK_l,           copyurl,        {.i =  0} },
 	{ MODKEY,               XK_o,           opencopied,     {.v = "xdg-open"} },
+	{ MODKEY,               XK_c,           normalMode,     {.i =  0} },
 };
 
 /*
@@ -453,14 +465,3 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
-
-/* unsigned int const currentBg = 261, buffSize = 2048; */
-/// [Vim Browse] Colors for search results currently on screen.
-/* unsigned int const highlightBg = 0, highlightFg = 7; */
-/* char const wDelS[] = "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~", wDelL[] = " \t"; */
-/* char *nmKeys [] = {}; ///< Shortcuts executed in normal mode */
-/* unsigned int const amountNmKeys = sizeof(nmKeys) / sizeof(*nmKeys); */
-/// Style of the {command, search} string shown in the right corner (y,v,V,/)
-/* Glyph styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 0}; */
-/* Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,0,257}, {' ',ATTR_ITALIC,257,0}, */
-/*                  {' ', ATTR_ITALIC, 0, 13}, {' ', ATTR_ITALIC, 0, 7}}; */

@@ -6,6 +6,12 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "JetBrains Mono:size=13:antialias=true:autohint=true";
+/* Spare fonts */
+static char *font2[] = {
+/*	"Inconsolata for Powerline:pixelsize=12:antialias=true:autohint=true", */
+	"Hack Nerd Font:pixelsize=16:antialias=true:autohint=true",
+};
+
 static int borderpx = 2;
 
 /*
@@ -104,7 +110,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.99, alphaUnfocused = 0.98;
+float alpha = 1, alphaUnfocused = 0.80;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -135,6 +141,7 @@ static const char *colorname[] = {
   [260] = "#2e3440",
   [261] = "#2f3b5c",
   [262] = "#FFFF00",
+  [263] = "#12171f",
 };
 
 /*---------Default assignments-------*/
@@ -142,7 +149,7 @@ static const char *colorname[] = {
 /*   italic,     cursor,    select   */
 /*-----------------------------------*/
 static int ignoreselfg = 1;
-unsigned int defaultbg = 0;
+unsigned int defaultbg = 263;
 unsigned int defaultfg = 257;
 unsigned int selectionfg = 7;
 unsigned int selectionbg = 259;
@@ -151,7 +158,7 @@ unsigned int defaultunderline = 7;
 unsigned int linkselectionbg = 262;
 static unsigned int defaultrcs = 9;
 static unsigned int defaultcs = 258;
-unsigned int bg = 0, bgUnfocused = 0;
+unsigned int bg = 263, bgUnfocused = 263;
 /* unsigned int const currentBg = 261, buffSize = 2048; */
 /* unsigned int const highlightBg = 0, highlightFg = 7; */
 /// [Vim Browse].
